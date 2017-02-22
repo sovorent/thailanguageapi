@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <% include ../template/head_bootstrap.html %>
+          
+    <script type="text/javascript">
+      $(document).ready(function(){
+        $('input.typeahead').typeahead({
+          name: 'countries',
+          crossDomain: true,
+          remote: '/search?key=%QUERY',
+          limit: 6
+        });
+      });
+    </script>
+    <style type="text/css">
+      .bs-example{
+        position: relative;
+        margin: 50px;
+        text-align: left;
+        font-style: oblique;
+      }
+      .typeahead, .tt-query, .tt-hint {
+        border: 2px solid #CCCCCC;
+        border-radius: 8px;
+        font-size: 18px;
+        height: 30px;
+        line-height: 30px;
+        outline: medium none;
+        padding: 8px 12px;
+        width: 396px;
+        text-align: left;
+      }
+      .typeahead {
+        background-color: #FFFFFF;
+      }
+      .typeahead:focus {
+        border: 2px solid #0097CF;
+      }
+      .tt-query {
+       
+      }
+      .tt-hint {
+        color: #999999;
+      }
+      .tt-dropdown-menu {
+        background-color: #FFFFFF;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        margin-top: 12px;
+        padding: 8px 0;
+        width: 396px;
+      }
+      .tt-suggestion {
+        line-height: 24px;
+        padding: 3px 20px;
+      }
+      .tt-suggestion.tt-is-under-cursor {
+        background-color: #0097CF;
+        color: #FFFFFF;
+      }
+      .tt-suggestion p {
+          margin: 0;
+      }
+    </style>
+</head>
+<body>
+<script>
+  // This is called with the results from from FB.getLoginStatus().
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      testAPI();
+    } else if (response.status === 'not_authorized') {
+      // The person is logged into Facebook, but not your app.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+    } else {
+      // The person is not logged into Facebook, so we're not sure if
+      // they are logged into this app or not.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into Facebook.';
+    }
+  }
+
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '{your-app-id}',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.5' // use graph api version 2.5
+  });
+
+  // Now that we've initialized the JavaScript SDK, we call 
+  // FB.getLoginStatus().  This function gets the state of the
+  // person visiting this page and can return one of three states to
+  // the callback you provide.  They can be:
+  //
+  // 1. Logged into your app ('connected')
+  // 2. Logged into Facebook, but not your app ('not_authorized')
+  // 3. Not logged into Facebook and can't tell if they are logged into
+  //    your app or not.
+  //
+  // These three cases are handled in the callback function.
+
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+    });
+  }
+</script>
+  <nav class="navbar navbar-inverse">
+    <a class="navbar-brand hvr-wobble-vertical" href="/" style="font-size: 25px">
+      <div style="position:absolute;display:inline-block;color: white; font-style: bold">Thai language </div>
+      <div class=""style="position:relative;display:inline-block;margin-left: 165px; color: #FF9900"><b>API</b></div>
+    </a>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li class="active"><a>หน้าแรก</a></li>
+        <li><a href="/aboutus" class="hvr-underline-from-center">เกี่ยวกับเรา</a></li>
+        <li><a href="/docapi" class="hvr-underline-from-center">เอกสาร API</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right" style="padding-right:20px;">
+        <form role="search" class="navbar-form navbar-left "name="searchword" method="GET" action="/searchword">
+          <div class="input-group stylish-input-group">
+            <input type="text" name="keyword"class="form-control"  placeholder="Search">
+            <span class="input-group-addon">
+              <button type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>  
+            </span>
+          </div>
+        </form>
+        <%if (!isAuthenticated) { %>
+          <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> สมัครสมาชิก</a></li>
+          <li><a href="/signin"><span class="glyphicon glyphicon-log-in"></span> เข้าสู่ระบบ</a></li>
+       <% } else {%>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color:#FF9900;">สวัสดีครับ, คุณ <strong><%= user.username %></strong>  <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/userprofile">โปรไฟล์</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="/signout" >ออกจากระบบ<span class="glyphicon glyphicon-log-out" style="margin-left: 15px;"></span> </a></li>
+            </ul>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </nav>
+  
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+
+<div id="status">
+</div>
+  <div class="container">
+    <div class="row">
+      <%if (!isAuthenticated) { %>
+        <div class="col-sm-9" style="height: 55vh;">
+          <form name="searchword" method="GET" action="/searchword" >
+            <div class="bs-example" style="top:100px; left: 100px;">
+              <input type="search" name="keyword" class="typeahead tt-query input-lg" placeholder=" ใส่คำที่ต้องการค้นหา">
+              <button type="submit" class="btn btn-info btn-lg" value="Search" style="margin-left: 20px;">
+                <i class="glyphicon glyphicon-search"></i> ค้นหา
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="col-sm-3 well" style="padding-top:0px; margin-top: 50px;">
+          <h3><thin>เข้าสู่ระบบ</thin></h3>
+          <form method="post" action="/signin">
+            <% if(typeof(errorMessage) !== 'undefined') {%>
+              <span style="color: red"><%= errorMessage %></span>
+            <% } %>
+            <div class="form-group" style="margin: 20px;">
+              <input type="text" class="form-control" name="username" id="username" placeholder="ยูสเซอร์เนม" required="true"style="width: 100%;"/>
+            </div>
+            <div class="form-group"style="margin: 20px;">
+              <input type="password" class="form-control" name="password" id="password" placeholder="รหัสผ่าน" required="true"style="width: 100% ;"/>
+            </div>
+            <div style="margin: 20px;">
+              <input type="submit" class="btn btn-default" name="signin" id="signin" value="เข้าสู่ระบบ"/> 
+              <a href="/signup" title="register">สมัครสมาชิก</a>
+            </div>
+          </form>
+        </div>
+      <% } else {%>
+        <div class="container">
+          <div class="row" style=" height: 55vh">
+            <form name="searchword" method="GET" action="/searchword" style="margin-top: 120px; margin-left:320px;">
+                <input type="search" name="keyword" class="typeahead tt-query input-lg" placeholder=" ใส่คำที่ต้องการค้นหา">
+                <button type="submit" class="btn btn-info btn-lg" value="Search" style="margin-left: 20px;">
+                  ค้นหา <i class="glyphicon glyphicon-search"></i>
+                </button>
+                <% if (user.username == 'admin') { %>
+                  <p style="margin-left: 337px"><a href="/adminpage" class="hvr-underline-from-left" style="text-decoration: none">หน้าผู้ดูแล</a></p>
+                <% } else { %>
+                  <p style="margin-left: 310px;"><a href="/insertword" class="hvr-underline-from-left" style="text-decoration: none">เพิ่มคำศัพท์ใหม่</a></p>
+                <% } %>
+                
+            </form>
+          </div>
+        </div>
+        
+      <% } %>
+
+    </div>
+  </div> 
+        <footer style=" text-align: left;">
+          <div class="container">
+            <div class="row"style="padding:10px; ">
+              <div class="col-sm-4">
+                <div class="col-md-12" style="background-color:#F0F0F0 ;padding-bottom: 30px;">
+                  <h3 style="font-style: italic;">คำที่มีคนค้นหามากที่สุด</h3>
+                  <% hitkeyword.forEach(function(hitkeyword){ %>
+                    <li style="margin-left: 20px; color:#bcd507 "><strong><a href="/searchword?keyword=<%= hitkeyword.keyword %>" style="text-decoration: none"><%= hitkeyword.keyword %> : </a><%= hitkeyword.numberOfkeyword %></strong></li>
+                  <% }); %>
+                </div>
+              </div>
+              <div class="col-sm-4 ">
+                <div class="col-md-12" style="background-color:#F0F0F0 ;padding-bottom: 30px;">
+                <h3 style="font-style: italic;">คำศัพท์สร้างใหม่ล่าสุด</h3>
+                <% newest.forEach(function(newest){ %>
+                  <li style="margin-left: 20px;color: #bcd507"><strong><a href="/word?id_word=<%=newest.id_word %>" style="text-decoration: none; "><%= newest.word %> </a></strong></li>
+                <% }); %>
+                </div>
+              </div>
+              <div class="col-sm-4 ">
+                <div class="col-md-12" style="background-color:#F0F0F0 ;padding-bottom: 30px;">
+                <h3 style="font-style: italic;">หมวดหมู่ที่มีคำศัพท์เยอะที่สุด</h3>
+                <% mosttag.forEach(function(mosttag){ %>
+                  <li style="margin-left: 20px; color:#bcd507 "><strong><a href="/tag?tag_id=<%= mosttag.tag_id %>" style="text-decoration: none"><%= mosttag.tag_name %> : </a><%= mosttag.numberofword %></strong></li>
+                <% }); %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </footer>
+</body>
+</html>

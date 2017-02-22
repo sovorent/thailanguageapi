@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <% include ../template/head_bootstrap.html %>
+
+
+    <style type="text/css">
+      hr { 
+        display: block;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: auto;
+        margin-right: auto;
+        border-style: inset;
+        border-width: 1px;
+      }
+      .bs-example{
+        font-family: sans-serif;
+        position: relative;
+        margin: 50px;
+        text-align: left;
+      }
+      .typeahead, .tt-query, .tt-hint {
+        border: 2px solid #CCCCCC;
+        border-radius: 8px;
+        font-size: 24px;
+        height: 30px;
+        line-height: 30px;
+        outline: medium none;
+        padding: 8px 12px;
+        width: 396px;
+        text-align: left;
+      }
+      .typeahead {
+        background-color: #FFFFFF;
+      }
+      .typeahead:focus {
+        border: 2px solid #0097CF;
+      }
+      .tt-query {
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;
+      }
+      .tt-hint {
+        color: #999999;
+      }
+      .tt-dropdown-menu {
+        background-color: #FFFFFF;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        margin-top: 12px;
+        padding: 8px 0;
+        width: 422px;
+      }
+      .tt-suggestion {
+        font-size: 24px;
+        line-height: 24px;
+        padding: 3px 20px;
+      }
+      .tt-suggestion.tt-is-under-cursor {
+        background-color: #0097CF;
+        color: #FFFFFF;
+      }
+      .tt-suggestion p {
+          margin: 0;
+      } 
+      body {
+          position: relative;
+      }
+      ul.nav-pills {
+          top: 300px;
+          position: fixed;
+      }
+      div.col-sm-9 div {
+          height: 130px;
+          width: 450px;
+          font-size: 16px;
+          float: left;
+          background-color: #0097CF;
+      }
+      .top {
+        padding-left: 300px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background-color: #E6E6FA;
+        font-size: 30px;
+      }
+      .wrap {
+          width: 100%;
+          padding-top: 100px;
+          padding-left: 250px;
+      }
+
+      .floatleft {
+          float:left; 
+          width: 45%;
+          padding-right: 20px;
+      }
+
+      .floatright {
+          float: right;
+          padding-left: 20px;
+          color: #FFFFFF;
+          width: 50%;
+      }
+
+      .eachdiv{
+          padding-top: 10px;
+          height:300px;
+      }
+      .eachrightdiv{
+          padding-top: 10px;
+          padding-left: 10px;
+          height:300px;
+          background-color: #000222;
+      }
+      .lastdiv{
+          padding-top: 10px;
+          padding-left: 10px;
+          height:2050px;
+          background-color: #000222;
+      }
+      
+      #w74 { word-wrap: break-word; }
+      @media screen and (max-width: 810px) {
+        #section1, #section2, #section3, #section4  {
+            margin-left: 150px;
+        }
+      }
+    </style>
+</head>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="80">
+<nav class="navbar navbar-inverse">
+    <a class="navbar-brand hvr-wobble-vertical" href="/" style="font-size: 25px">
+      <div style="position:absolute;display:inline-block;color: white; font-style: bold">Thai language </div>
+      <div class=""style="position:relative;display:inline-block;margin-left: 165px; color: #FF9900"><b>API</b></div>
+    </a>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/" class="hvr-underline-from-center">หน้าแรก</a></li>
+        <li><a href="/aboutus" class="hvr-underline-from-center">เกี่ยวกับเรา</a></li>
+        <li class="active"><a>เอกสาร API</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right" style="padding-right:20px;">
+        <form role="search" class="navbar-form navbar-left "name="searchword" method="GET" action="/searchword">
+          <div class="input-group stylish-input-group">
+            <input type="text" name="keyword"class="form-control"  placeholder="Search">
+            <span class="input-group-addon">
+              <button type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>  
+            </span>
+          </div>
+        </form>
+        <%if (!isAuthenticated) { %>
+          <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> สมัครสมาชิก</a></li>
+          <li><a href="/signin"><span class="glyphicon glyphicon-log-in"></span> เข้าสู่ระบบ</a></li>
+       <% } else {%>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color:#FF9900;">สวัสดีครับ, คุณ <strong><%= user.username %></strong>  <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/userprofile">โปรไฟล์</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="/signout" >ออกจากระบบ<span class="glyphicon glyphicon-log-out" style="margin-left: 15px;"></span> </a></li>
+            </ul>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </nav>
+
+    <div class="top" style="margin-top:100px;">
+     <h1>แนะนำการใช้ API</h1>
+    </div>
+    <div class="container">
+      <div class="row">
+        <nav class="col-sm-3" id="myScrollspy">
+          <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a href="#section1">Introduction</a></li>
+            <li><a href="#section2">Authentication</a></li>
+            <li><a href="#section3">API Response</a></li> 
+            <li><a href="#section4">Endpoints</a></li>   
+          </ul>
+        </nav>
+        <div class="row">
+          <div class="wrap">
+            <div class="floatleft">
+              <div class="eachdiv" id="section1">    
+                <h2>Introduction</h2>
+                <hr>
+                <p>Thai Language API เป็น RESTful API ที่ให้บริการเกี่ยวกับภาษา ซึ่งจะส่งค่ากลับมาอยู่ในรูปแบบของ JSON สำหรับทุกๆครั้งที่มีการร้องขอ API </p>
+              </div>
+              <div class="eachdiv" id="section2">
+                <h2>Authentication</h2>
+                <hr>
+                <p>การยืนยันตัวตนผ่านสามารถทำได้โดยการแนบ Token มากับ Header ของHTTP request </p>
+              </div>
+              <div class="eachdiv" id="section3">
+                <h2>API Response</h2>
+                <hr>
+                <p>เมื่อมีการส่ง HTTP Request ไป ก็จะต้องมีการส่ง HTTP response code เพื่อแสดงให้เห็นว่าการrequest นั้นสำเร็จหรือไม่ <br>Status 200 หมายถึงการร้องขอ API สำเร็จ Status 401 หมายถึงการร้องขอ API นั้นไม่มีการแนบ authentication token หรือ authentication token นั้นไม่ถูกต้อง </p>
+              </div>
+              <div class="eachdiv" id="section4">
+                <h2>Endpoints</h2>
+                <hr>
+                <ul>
+                  <p>หากต้องการ request ที่ระบุข้อมูลที่ต้องการสามารถทำได้โดยเพิ่มชนิดของข้อมูล(meaning , synonym , frequency)ไปในurl <br></p>
+                  <li><b>GET words/:name</b></li>
+                      <p style="height:350px">การ request ที่ไม่มีการระบุเฉพาะจะได้รับข้อมูลที่คืนกลับมาได้แก่ 
+                            Part of speech, Prononciation, Meaning, Frequency และ Tag <br><br>
+                      </p>
+                  <li><b>GET words/meaning/:name</b></li>
+                  <hr>
+                      <p style="height:350px"> จะได้ข้อมูลคืนมาได้แก่ Part of Speech และ Meaning<br></p>
+                  <li><b>GET words/synonym/:name</b></li>
+                  <hr>
+                      <p style="height:350px">จะได้ข้อมูลคืนมาได้แก่ Synonym คือคำไวพจน์ของคำนั้นๆ<br></p>
+                  <li><b>GET words/frequency/:name</b></li>
+                  <hr>
+                      <p style="height:350px">จะได้ข้อมูลคืนมาได้แก่ frequency คือความถี่ที่คำนั่นๆถูกใช้งานบน twitter โดยเปรียบเทียบต่อ 1ล้านคำ</p>
+                  <li><b>GET words/example/:name</b></li>
+                  <hr>
+                      <p style="height:350px">ข้อมูลที่ได้จะเป็นตัวอย่างของประโยคที่มีคำนั้นๆ เพื่อเป็นตัวอย่างการใช้งานของคำนั้นๆ</p>
+                </ul>
+              </div>
+              
+              <div class="eachdiv" id="space">
+
+              </div>
+            </div>
+
+            <div class="floatright">
+              <div class="eachrightdiv" id="section1right"> 
+                <h2>API ENDPOINT</h2>
+                <hr>
+                <p>htttp://thailanguageapi.com/api</p>
+              </div> 
+              <div class="eachrightdiv" id="section2right">
+                <h2>Authentication Example</h2>
+                <hr>
+                <p>EXAMPLE REQUEST<br>
+                   curl -H "x-access-token: [ACCESSTOKEN]" http://thailanguageapi.com/api/words/นอน<br>
+                   <br></p>
+              </div>
+              <div class="eachrightdiv" id="section3right">
+                <h2>Outputs Example</h2>
+                <hr>
+                <p><b>Status 200</b> Success - ok <br> <b>Status 401</b> Unauthorized - Failed to authenticate token or No token provided in request<br> <b>Status 404</b> Not Found - Wrong url</p>
+              </div>
+              <div class="lastdiv" id="section4right">
+                <h2>Details</h2>
+                <hr>
+                <p>EXAMPLE REQUEST<br>
+                   curl -H "x-access-token: [ACCESSTOKEN]" http://thailanguageapi.com/api/words/นอน<br>
+                   <br>
+                   EXAMPLE RESPONSE<br>
+                   [<br>
+                      {<br>
+                        "id_word": 17675,<br>
+                        "word": "นอน",<br>
+                        "sequence": 1,<br>
+                        "partofspeech": "Verb",<br>
+                        "prononciation": "",<br>
+                        "meaning": "เอนตัวหรือทอดตัวลงกับพื้นหรือที่ใด ๆ เพื่อพักผ่อนเป็นต้น, อาการที่ทำให้ของสูง ๆ ทอดลง เช่น เอาเสานอนลง, อาการที่พรรณไม้บางชนิด เช่น จามจุรี ผักกระเฉด ไมยราบ หลุบใบในเวลาใกล้จะสิ้นแสงตะวัน",<br>
+                        "frequency": 0,<br>
+                        "tag": ""<br>
+                      }<br>
+                    ]<br>
+                     <br>
+                     <br>
+                     <br>
+                     <hr>
+                </p>
+                <p>EXAMPLE REQUEST<br>
+                   curl -H "x-access-token: [ACCESSTOKEN]" http://thailanguageapi.com/api/words/meaning/นอน<br>
+                   <br>
+                   EXAMPLE RESPONSE<br>
+                   [<br>
+                      {<br>
+                        "meaning": "เอนตัวหรือทอดตัวลงกับพื้นหรือที่ใด ๆ เพื่อพักผ่อนเป็นต้น, อาการที่ทำให้ของสูง ๆ ทอดลง เช่น เอาเสานอนลง, อาการที่พรรณไม้บางชนิด เช่น จามจุรี ผักกระเฉด ไมยราบ หลุบใบในเวลาใกล้จะสิ้นแสงตะวัน",<br>
+                        "partofspeech": "Verb"<br>
+                      }<br>
+                    ]<br>
+                     <br>
+                     <br>
+                     <br>
+                     <br>
+                     <br>
+                     <br>
+                     <hr>
+                </p>
+              <div>
+                <p>EXAMPLE REQUEST<br>
+                   curl -H "x-access-token: [ACCESSTOKEN]" http://thailanguageapi.com/api/words/meaning/นอน<br>
+                   <br>
+                   EXAMPLE RESPONSE<br>
+                   [<br>
+                      {<br>
+                        "meaning": "เอนตัวหรือทอดตัวลงกับพื้นหรือที่ใด ๆ เพื่อพักผ่อนเป็นต้น, อาการที่ทำให้ของสูง ๆ ทอดลง เช่น เอาเสานอนลง, อาการที่พรรณไม้บางชนิด เช่น จามจุรี ผักกระเฉด ไมยราบ หลุบใบในเวลาใกล้จะสิ้นแสงตะวัน",<br>
+                        "partofspeech": "Verb"<br>
+                      }<br>
+                    ]<br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <hr>
+                </p>
+                <p>EXAMPLE REQUEST<br>
+                   curl -H "x-access-token: [ACCESSTOKEN]" http://thailanguageapi.com/api/words/synonym/นอน<br>
+                   <br>
+                   EXAMPLE RESPONSE<br>
+                   [<br>
+                      {<br>
+                        "synonym": []<br>
+                      }<br>
+                    ]<br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <hr>
+                </p>
+                <p style="height:430px">EXAMPLE REQUEST<br>
+                   curl -H "x-access-token: [ACCESSTOKEN]" http://thailanguageapi.com/api/words/example/นอน<br>
+                   <br>
+                   EXAMPLE RESPONSE<br>
+                   [<br>
+                      {<br>
+                        "examples": [<br>
+                            "พี่ไปนอนในห้องแล้ว",<br>
+                            "ง่วงนอนแล้วนะ"<br>
+                            ]<br>
+                      }<br>
+                    ]<br>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+</body>
+</html>

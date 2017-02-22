@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title><%= title %></title>
+    <% include ../template/head_bootstrap.html %>
+</head>
+<body>
+    <% include ../template/nav.html %>
+          <p>
+         Welcome <strong><%= user.username %></strong>
+         <a href="/signout" title="sign out">sign out</a>
+      </p>
+        <% include ../template/footer.html %>
+</body>
+</html>

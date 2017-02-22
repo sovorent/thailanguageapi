@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title><%= title %> <%=sql[0].tag_name %></title>
+    	<% include ../template/head_bootstrap.html %>
+        
+    <style type="text/css">
+    a{
+      color: #FF33FF;
+    }
+    a:hover {
+      text-decoration: none;
+      color: red;
+    }
+    </style>
+</head>
+<body>
+   <nav class="navbar navbar-inverse navbar-fixed-top">
+    <a class="navbar-brand hvr-wobble-vertical" href="/" style="font-size: 25px">
+      <div style="position:absolute;display:inline-block;color: white; font-style: bold">Thai language </div>
+      <div class=""style="position:relative;display:inline-block;margin-left: 165px; color: #FF9900"><b>API</b></div>
+    </a>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/" class="hvr-underline-from-center">หน้าแรก</a></li>
+        <li><a href="/aboutus" class="hvr-underline-from-center">เกี่ยวกับเรา</a></li>
+        <li><a href="/docapi" class="hvr-underline-from-center">เอกสาร API</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right" style="padding-right:20px;">
+        <form role="search" class="navbar-form navbar-left "name="searchword" method="GET" action="/searchword">
+          <div class="input-group stylish-input-group">
+            <input type="text" name="keyword"class="form-control"  placeholder="Search">
+            <span class="input-group-addon">
+              <button type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>  
+            </span>
+          </div>
+        </form>
+        <%if (!isAuthenticated) { %>
+          <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> สมัครสมาชิก</a></li>
+          <li><a href="/signin"><span class="glyphicon glyphicon-log-in"></span> เข้าสู่ระบบ</a></li>
+       <% } else {%>
+          <li><a style="color:#FF9900" ><strong>สวัสดีครับ, คุณ </strong><%= user.username %></a></li>
+          <li><a href="/signout" ><span class="glyphicon glyphicon-log-out"></span> ออกจากระบบ</a></li>
+        <% } %>
+      </ul>
+    </div>
+  </nav>
+	  <div class="container" style="width: 80%;">
+      <div class="row" style="margin-top: 100px;">
+        <h1>หมวดหมู่ : <strong><%= sql[0].tag_name %></strong></h1>
+            <% sql.forEach( function(sql) { %>
+            <div class="well"style="background-color: #F0F0F0 ;margin-top:20px;">
+              <a href="/word?id_word=<%= sql.id_word %>"><h2><%= sql.word %></h2></a>
+              <div style="margin-left: 20px;"> 
+                <p><%= sql.partofspeech %> 
+                <p><%= sql.meaning %>
+              </div>
+              
+            </div>
+            <% }); %>
+           
+      </div>
+    </div>
+
+
+    	
+</body>
+</html>
+ 

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title><%= title %></title>
+    <% include ../template/head_bootstrap.html %>
+    <style type="text/css">
+      hr { 
+        display: block;
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+        margin-left: auto;
+        margin-right: auto;
+        border-style: inset;
+        border-width: 1px;
+      }
+
+      ul.nav-pills {
+          top: 300px;
+          position: fixed;
+      }
+      div.col-sm-9 div {
+          height: 130px;
+          width: 450px;
+          font-size: 16px;
+          float: left;
+          background-color: #0097CF;
+      }
+      .top {
+        padding-left: 300px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        background-color: #E6E6FA;
+        font-size: 30px;
+      }
+      .wrap {
+          width: 100%;
+          padding-top: 100px;
+          padding-left: 250px;
+      }
+
+      .floatleft {
+          float:left; 
+          width: 45%;
+          padding-right: 20px;
+      }
+
+      .floatright {
+          float: right;
+          padding-left: 20px;
+          width: 50%;
+      }
+
+      .eachdiv{
+          padding-top: 10px;
+          height:300px;
+      }
+      .eachrightdiv{
+          padding-top: 10px;
+          padding-left: 10px;
+          height:300px;
+          background-color: #E9F8FE;
+      }
+      .lastdiv{
+          padding-top: 10px;
+          padding-left: 10px;
+          height:2050px;
+          background-color: #000222;
+      }
+      
+      #w74 { word-wrap: break-word; }
+      @media screen and (max-width: 810px) {
+        #section1, #section2, #section3, #section4  {
+            margin-left: 150px;
+        }
+      }
+    </style>
+</head>
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="80">
+
+<nav class="navbar navbar-inverse">
+    <a class="navbar-brand hvr-wobble-vertical" href="/" style="font-size: 25px">
+      <div style="position:absolute;display:inline-block;color: white; font-style: bold">Thai language </div>
+      <div class=""style="position:relative;display:inline-block;margin-left: 165px; color: #FF9900"><b>API</b></div>
+    </a>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><a href="/" class="hvr-underline-from-center">หน้าแรก</a></li>
+        <li class="active"><a>เกี่ยวกับเรา</a></li>
+        <li><a href="/docapi" class="hvr-underline-from-center">เอกสาร API</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right" style="padding-right:20px;">
+        <form role="search" class="navbar-form navbar-left "name="searchword" method="GET" action="/searchword">
+          <div class="input-group stylish-input-group">
+            <input type="text" name="keyword"class="form-control"  placeholder="Search">
+            <span class="input-group-addon">
+              <button type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+              </button>  
+            </span>
+          </div>
+        </form>
+        <%if (!isAuthenticated) { %>
+          <li><a href="/signup"><span class="glyphicon glyphicon-user"></span> สมัครสมาชิก</a></li>
+          <li><a href="/signin"><span class="glyphicon glyphicon-log-in"></span> เข้าสู่ระบบ</a></li>
+       <% } else {%>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="color:#FF9900;">สวัสดีครับ, คุณ <strong><%= user.username %></strong>  <span class="caret"></span></a>
+            <ul class="dropdown-menu">
+              <li><a href="/userprofile">โปรไฟล์</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a href="/signout" >ออกจากระบบ<span class="glyphicon glyphicon-log-out" style="margin-left: 15px;"></span> </a></li>
+            </ul>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </nav>
+
+    <div class="top" style="margin-top:100px;">
+     <h1> เกี่ยวกับเรา </h1>
+    </div>
+    <div class="container">
+      <div class="row" style="margin-top: -50px;">
+        <nav class="col-sm-3" id="myScrollspy">
+          <ul class="nav nav-pills nav-stacked">
+            <li class="active"><a href="#section1">แนะนำ</a></li>
+            <li><a href="#section2" class="page-scroll">ผู้พัฒนา</a></li>
+            <li><a href="#section3">ที่ปรึกษา</a></li> 
+            <li><a href="#section4">ติดต่อเรา</a></li>   
+          </ul>
+        </nav>
+        <div class="row">
+          <div class="wrap">
+            <div class="floatleft">
+              <div class="eachdiv" id="section1">    
+                <h2>แนะนำ</h2>
+                <hr>
+                <p style="text-indent: 50px; margin-top: 20px;margin-left: 10px;">คณะผู้จัดทำจึงได้คิดจะทำ API เพื่อให้บริการนักพัฒนาแอพพลิเคชั่นได้นำไปพัฒนาแอพพลิเคชั่นโดยจะให้บริการเกี่ยวกับพจนานุกรมภาษาไทย ให้ความหมายของคำ คำเหมือน และหมวดหมู่ของคำ โดยนอกจากส่วน API ที่คณะผู้จัดทำจะทำแล้วนั้น ยังมีส่วน Crowdsourcing ที่จะช่วยให้พจนานุกรมไทยของเรานั้นได้รับการพัฒนาอย่างต่อเนื่อง และครอบคลุมกับคำศัพท์ทุกยุคทุกสมัย โดยคาดหวังว่าโครงการนี้จะสามารถช่วยตอบโจทย์กับนักพัฒนาแอพพลิเคชั่น หรือผู้อื่นที่ต้องการใช้งานภาษาไทย และช่วยในการอนุรักษย์ภาษาไทย สนับสนุนให้คนใช้ภาษาไทย เข้าใจภาษาไทยอย่างถูกต้อง</p>
+              </div>
+              <div class="eachdiv" id="section2" >
+                <h2>ผู้พัฒนา</h2>
+                <hr>
+                <div style="margin-top: 20px;margin-left: 10px;">
+                  <p>  นายธีรเจต  เล็กกุลวัฒน์  </p>
+                  <p>  นายบัญญพนต์  จงเปรมกิจไพศาล </p>
+                  <p>  นางสาวฐิติชญา  จันทร์เพชร</p>
+                </div>
+              </div>
+              <div class="eachdiv" id="section3">
+                <h2>ที่ปรึกษา</h2>
+                <hr>
+                <div style="margin-top: 20px;margin-left: 10px;">
+                  <p>ผศ.ดร.สันติธรรม พรหมอ่อน</p>
+                  <p>ผศ.ดร.ณัฐนาถ ฟาคุนเด๊ซ</p>
+                </div>
+              </div>
+              <div class="eachdiv" id="section4">
+                <h2>ติดต่อเรา</h2>
+                <hr>
+                <div style="margin-top: 20px;margin-left: 10px;">
+                  <p>โทรศัพท์: 0800330402, 0909670677 </p>
+                  <p>อีเมล์: ch.thitichaya0402@gmail.com</p>     
+                  <p>ที่ตั้ง: มหาวิทยาลัยเทคโนโลยีพระจอมเกล้าธนุบรี</p>
+                </div>
+                 
+              </div>
+              <div class="eachdiv" id="space">
+
+              </div>
+            </div>
+
+            <div class="floatright">
+              <div class="eachdiv" id="section1"> 
+                <h2>มารู้จัก THAI Language API</h2>
+                <hr>
+                <div style="text-align:center;margin-top: 20px;margin-left: 10px;">
+                  <img border="0" src="http://www.mx7.com/i/5e3/eOmqFh.jpg" width="300" height="230" /></a>
+                  </div>
+              </div> 
+
+              <div class="eachdiv" id="section2">
+                <h2>พัฒนาโดย</h2>
+                <hr>
+                <div style="text-align:center;margin-top: 20px;margin-left: 10px;">
+                  <img src="http://www.uppic.org/thumb-D92F_57371CE5.jpg" border="0">
+                </div>
+              </div>
+
+              <div class="eachdiv" id="section3">
+                <h2>ให้คำแนะนำโดย</h2>
+                <hr>
+                <div style="text-align:center;margin-top: 20px;margin-left: 10px;">
+                  <img border="0" src="http://www.mx7.com/i/bc5/84ZlHY.jpg" />
+                </div>
+              </div>
+
+              <div class="eachdiv" id="section4">
+                <h2>ช่องทางการติดต่อ</h2>
+                <hr>
+                <div style="text-align:center;margin-top: 20px;margin-left: 10px;">
+                  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3877.098659738323!2d100.49271501536832!3d13.651762103280662!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30e2a251bb6b0cf1%3A0xf656e94ff13324ad!2z4Lih4Lir4Liy4Lin4Li04LiX4Lii4Liy4Lil4Lix4Lii4LmA4LiX4LiE4LmC4LiZ4LmC4Lil4Lii4Li14Lie4Lij4Liw4LiI4Lit4Lih4LmA4LiB4Lil4LmJ4Liy4LiY4LiZ4Lia4Li44Lij4Li1!5e0!3m2!1sth!2sth!4v1463224184426" width="500" height="300" frameborder="0" style="border:0" allowfullscreen></iframe> 
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+
+</body>
+</html>
