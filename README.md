@@ -7,3 +7,7 @@ install
 "$git clone https://github.com/sovorent/thailanguageapi.git"
 2. 'npm install'
 3. 'node bin/www'
+
+
+
+************** still error.... waiting for mysql database ***************************
